@@ -3,9 +3,7 @@ A lightweight, Python-based firewall hardening tool for Windows that protects yo
 
 🔍 How It Works
 Downloads updated IP blocklists from trusted open sources:
-
 FireHOL Level 1
-
 Spamhaus DROP
 
 Skips trusted IPs (LAN, localhost, VPN ranges)
@@ -28,6 +26,7 @@ Adds new inbound block rules to Windows Firewall for each bad IP
 ⚡ Simple enough to automate with Windows Task Scheduler
 
 ⚠️ Ethical & Safety Notice
+
 ❗ This tool is intended for personal or homelab use only on systems you control.
 
 Never use it to interfere with or monitor systems you do not own.
@@ -40,21 +39,17 @@ This tool does not scan, probe, attack, or interact with any external systems �
 
 🧰 Requirements
 Python 3.x
-
 Windows 10/11
-
 Admin privileges
 
 📦 Setup
 Clone the repository or download the ZIP:
-
 bash
 Copy
 Edit
 git clone https://github.com/YOUR-USERNAME/homelab-threat-blocker.git
 cd homelab-threat-blocker
 Run the script as administrator:
-
 bash
 Copy
 Edit
@@ -87,6 +82,7 @@ Edit
 [+] Removing old firewall rules...
 [+] Adding 10777 firewall rules...
 [✓] Done. 10777 malicious IPs blocked.
+
 🧾 License
 MIT License. You are free to use, modify, and share this code — just keep it ethical and credit the original author.
 
