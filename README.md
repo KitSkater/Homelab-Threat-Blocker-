@@ -1,69 +1,77 @@
-# Homelab-Threat-Blocker-Windows-
-A lightweight, Python-based firewall hardening tool for Windows that protects your homelab or personal network by blocking connections from known malicious IP addresses using the built-in Windows Defender Firewall.
+# 🛡️ Homelab-Threat-Blocker
 
-🔍 How It Works
-Downloads updated IP blocklists from trusted open sources:
-FireHOL Level 1
-Spamhaus DROP
+A lightweight, Python-based firewall hardening tool for **Windows and Linux**, designed to protect your **homelab or personal network** by blocking known malicious IP addresses using your system’s built-in firewall tools.
 
-Skips trusted IPs (LAN, localhost, VPN ranges)
+---
 
-Removes old threat-blocking rules (created by previous runs)
+## 🔍 How It Works
 
-Adds new inbound block rules to Windows Firewall for each bad IP
+- Downloads updated blocklists from trusted open sources:
+  - [FireHOL Level 1](https://github.com/firehol/blocklist-ipsets)
+  - [Spamhaus DROP](https://www.spamhaus.org/drop/)
+- Skips safe IPs (LAN, localhost, VPN ranges)
+- Clears previously-added rules to avoid duplication
+- Applies new `DROP` rules:
+  - ✅ On Windows: uses `netsh advfirewall`
+  - ✅ On Linux: uses `iptables` (nftables version coming soon)
+- Rule names are prefixed with `HomelabThreatBlock` for clean management
 
-🧱 Rules are named with a clear prefix: HomelabThreatBlock, so they can be managed or deleted cleanly.
+---
 
-🚀 Features
-🔒 Blocks connections from thousands of known malicious IPs
+## 🚀 Features
 
-♻️ Cleans up old rules before each update to prevent firewall bloat
+- 🔒 Blocks thousands of known malicious IPs
+- ♻️ Automatically removes outdated rules
+- 🌐 No third-party dependencies; uses built-in system firewalls
+- 🧠 Skips private and internal IPs with a whitelist
+- ⚙️ Designed for easy automation (Task Scheduler or cron)
 
-🌐 Uses netsh advfirewall — no third-party dependencies
+---
 
-🧠 Skips private/trusted IPs using a built-in whitelist
+## ⚠️ Ethical Use Notice
 
-⚡ Simple enough to automate with Windows Task Scheduler
+> This tool is for **defensive, ethical use only** on **systems you own or manage.**
 
-⚠️ Ethical & Safety Notice
+- ❗ Never use it to interfere with or monitor external systems
+- ❗ Do not alter feed sources to block legitimate traffic
+- ✅ This script does **not scan, probe, or attack** — it’s **100% local and passive**
+- 🔍 Always review changes to your firewall before and after applying
 
-❗ This tool is intended for personal or homelab use only on systems you control.
+---
 
-Never use it to interfere with or monitor systems you do not own.
+## 🧰 Requirements
 
-Do not modify IP feeds to block or target legitimate services.
+| System     | Requirements                          |
+|------------|----------------------------------------|
+| Windows    | Python 3.x, Windows 10/11, Admin rights |
+| Linux      | Python 3.x, `iptables`, `sudo` access   |
 
-Review all changes made to your firewall after running.
+---
 
-This tool does not scan, probe, attack, or interact with any external systems — it is purely defensive and local.
+## 📦 Setup & Usage
 
-🧰 Requirements
-Python 3.x
-Windows 10/11
-Admin privileges
+1. **Clone the repo**:
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/homelab-threat-blocker.git
+   cd homelab-threat-blocker
+2 Run the script:
 
-📦 Setup
-Clone the repository or download the ZIP:
+Windows (elevated Command Prompt or PowerShell):
+
 bash
-Copy
-Edit
-git clone https://github.com/YOUR-USERNAME/homelab-threat-blocker.git
-cd homelab-threat-blocker
-Run the script as administrator:
-bash
-Copy
-Edit
+
 python firewall_updater_windows.py
-🔐 You must run from an elevated Command Prompt or PowerShell.
+Linux:
 
-🔁 Automate with Task Scheduler
-You can schedule this script to run daily or weekly:
+bash
 
-Open Task Scheduler
+sudo python3 firewall_updater_linux.py
 
-Create new task → "Run with highest privileges"
+🔁 Automate the Updates
+🪟 Windows (Task Scheduler)
+Create a new task → “Run with highest privileges”
 
-Trigger → Choose frequency
+Trigger → Choose daily/weekly
 
 Action → Start a program:
 
@@ -71,26 +79,35 @@ Program: python
 
 Arguments: C:\Path\To\firewall_updater_windows.py
 
+🐧 Linux (cron)
+bash
+
+sudo crontab -e
+Add:
+swift
+
+@daily /usr/bin/python3 /path/to/firewall_updater_linux.py
 🛡️ Example Output
-css
-Copy
-Edit
+
 [+] Downloading FireHOL...
-  -> 9756 IPs collected from FireHOL
+  → 9756 IPs collected from FireHOL
 [+] Downloading Spamhaus...
-  -> 1021 IPs collected from Spamhaus
+  → 1021 IPs collected from Spamhaus
 [+] Removing old firewall rules...
-[+] Adding 10777 firewall rules...
-[✓] Done. 10777 malicious IPs blocked.
+[+] Adding 10,777 firewall rules...
+[✓] Done. 10,777 malicious IPs blocked.
 
 🧾 License
-MIT License. You are free to use, modify, and share this code — just keep it ethical and credit the original author.
+This project is licensed under the MIT License.
+You are free to use, modify, and share — just stay ethical and credit the original author.
 
-✨ Future Ideas
-Add AbuseIPDB or custom feed support
+✨ Future Plans
+Add support for AbuseIPDB and custom feeds
 
-Export blocked IPs to JSON or CSV
+Export blocked IPs to CSV/JSON
 
-GUI or web dashboard
+Optional GUI or web dashboard
 
-Outbound connection blocker mode
+nftables support for modern Linux systems
+
+
